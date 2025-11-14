@@ -5,15 +5,12 @@ const EditRecipeForm = ({ recipe }) => {
   const [title, setTitle] = useState(recipe.title);
   const [description, setDescription] = useState(recipe.description);
 
-  const setRecipes = useRecipeStore(state => state.setRecipes);
-  const recipes = useRecipeStore(state => state.recipes);
+  const updateRecipe = useRecipeStore(state => state.updateRecipe);
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-    const updatedRecipes = recipes.map(r =>
-      r.id === recipe.id ? { ...r, title, description } : r
-    );
-    setRecipes(updatedRecipes);
+    e.preventDefault(); 
+
+    updateRecipe({ id: recipe.id, title, description });
     alert('Recipe updated!');
   };
 
