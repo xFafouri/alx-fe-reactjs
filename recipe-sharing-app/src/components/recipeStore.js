@@ -53,7 +53,54 @@ const useRecipeStore = create(set => ({
         return true;
       });
     }
-  )
+  ),
+  // FAVORITES + RECOMMENDATIONS
+favorites: [],
+
+addFavorite: (recipeId) =>
+  set(state => ({
+    favorites: state.favorites.includes(recipeId)
+      ? state.favorites   // avoid duplicates
+      : [...state.favorites, recipeId]
+  })),
+
+removeFavorite: (recipeId) =>
+  set(state => ({
+    favorites: state.favorites.filter(id => id !== recipeId)
+  })),
+
+// easy UX helper
+toggleFavorite: (recipeId) =>
+  set(state => ({
+    favorites: state.favorites.includes(recipeId)
+      ? state.favorites.filter(id => id !== recipeId)
+      : [...state.favorites, recipeId]
+  })),
+
+// SIMPLE RECOMMENDER
+recommendations: [],
+
+generateRecommendations: () =>
+  set(state => {
+    if (!state.favorites.length) return { recommendations: [] }; // no favorites = no recs
+
+    const recommended = state.recipes.filter(recipe =>
+      state.favorites.includes(recipe.id) ||
+      // recommend similar recipes (if they share ingredients)
+      state.favorites.some(favId => {
+        const favRecipe = state.recipes.find(r => r.id === favId);
+        if (!favRecipe) return false;
+        if (!favRecipe.ingredients || !recipe.ingredients) return false;
+
+        // overlap of ingredients = recommended
+        return recipe.ingredients.some(i =>
+          favRecipe.ingredients.includes(i)
+        );
+      })
+    );
+
+    return { recommendations: recommended };
+  }),
 }));
 
 export default useRecipeStore;
