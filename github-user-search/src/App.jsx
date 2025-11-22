@@ -1,14 +1,22 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Home from "../src/components/Home.jsx";
-import Profile from "../src/components/profile";
+import Home from "./components/Home";
+import Profile from "./components/Profile";
+import Search from "./components/Search";
 
 export default function App() {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/profile/:username" element={<Profile />} />
-      </Routes>
+      <div>
+        {/* Always visible (header + search) */}
+        <h1 style={{ textAlign: "center" }}>GitHub User Search</h1>
+        <Search />
+
+        {/* Change content based on route */}
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/profile/:username" element={<Profile />} />
+        </Routes>
+      </div>
     </BrowserRouter>
   );
 }

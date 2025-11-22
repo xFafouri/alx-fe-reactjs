@@ -1,13 +1,15 @@
-const BASE_URL = "https://api.github.com";
+import axios from "axios";
 
-export async function getUser(username) {
+const BASE_URL = "https://api.github.com/users/";
+
+export async function fetchUserData(username) {
   const token = import.meta.env.VITE_GITHUB_API_TOKEN;
 
-  const res = await fetch(`${BASE_URL}/users/${username}`, {
+  const response = await axios.get(`${BASE_URL}${username}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   });
 
-  return res.json();
+  return response.data;
 }
