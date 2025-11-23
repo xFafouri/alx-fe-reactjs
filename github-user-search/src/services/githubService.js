@@ -1,24 +1,35 @@
 import axios from "axios";
 
-export async function advancedUserSearch({ username, location, minRepos, page }) {
-  const token = import.meta.env.VITE_GITHUB_API_TOKEN;
+const token = import.meta.env.VITE_GITHUB_API_TOKEN;
 
+// Advanced search: username + location + minRepos
+export async function fetchUserData(username, location, minRepos) {
   let query = "";
 
-  if (username) query += `${username} in:login `;
-  if (location) query += `location:${location} `;
-  if (minRepos) query += `repos:>=${minRepos} `;
+  if (username) query += `${username}+in:login`;
+  if (location) query += `+location:${location}`;
+  if (minRepos) query += `+repos:>=${minRepos}`;
 
-  const url = `https://api.github.com/search/users?q=${encodeURIComponent(
-    query
-  )}&page=${page}&per_page=10`;
+  const url = `https://api.github.com/search/users?q=${query}`;
 
   const response = await axios.get(url, {
-    headers: { Authorization: `Bearer ${token}` },
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
   });
 
-  return {
-    users: response.data.items,
-    total: response.data.total_count,
-  };
+  return response.data;
+}
+
+// Fetch single GitHub user by username
+export async function getUser(username) {
+  const url = `https://api.github.com/users/${username}`;
+
+  const response = await axios.get(url, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  return response.data;
 }

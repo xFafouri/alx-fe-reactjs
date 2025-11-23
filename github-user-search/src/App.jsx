@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./components/Home";
-import Profile from "./components/Profile";
-import Search from "./components/Search";
+import Profile from "../src/components/profile";
+import Search from "../src/components/Search";
 
 export default function App() {
   return (
