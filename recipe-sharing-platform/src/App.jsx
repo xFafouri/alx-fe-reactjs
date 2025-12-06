@@ -6,6 +6,7 @@ import './App.css'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import HomePage from './components/HomePage';
 import RecipeDetail from './components/RecipeDetail';
+import AddRecipeForm from "./components/AddRecipeForm";
 
 function App() {
   return (
@@ -13,7 +14,16 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/recipe/:id" element={<RecipeDetail />} />
+        <Route path="/add-recipe" element={<AddRecipeForm />} />
+
       </Routes>
+        <Link
+          to="/add-recipe"
+          className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition"
+        >
+          Add New Recipe
+      </Link>
+
     </Router>
   );
 }
