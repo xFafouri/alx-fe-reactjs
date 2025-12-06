@@ -35,12 +35,13 @@ function AddRecipeForm() {
 
     const recipeData = {
       title,
-      ingredients: ingredients.split("\n"),
-      steps: steps.split("\n"),
+      ingredients: ingredients.split("\n").map((s) => s.trim()).filter(Boolean),
+      steps: steps.split("\n").map((s) => s.trim()).filter(Boolean),
     };
 
     console.log("Submitted Recipe:", recipeData);
 
+    // show a quick confirmation (replace with toast in the future)
     alert("Recipe submitted successfully!");
 
     // Clear the form after submission:
@@ -51,17 +52,18 @@ function AddRecipeForm() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex justify-center px-4 py-10">
+    <div className="min-h-screen bg-gray-100 flex items-start justify-center px-4 py-10">
       <form
         onSubmit={handleSubmit}
-        className="max-w-xl w-full bg-white p-6 rounded-xl shadow"
+        className="max-w-3xl w-full bg-white p-6 rounded-xl shadow
+                   grid grid-cols-1 md:grid-cols-2 md:gap-6 gap-4"
       >
-        <h1 className="text-3xl font-bold mb-6 text-center">
+        <h1 className="text-2xl md:text-3xl font-bold mb-2 md:mb-4 col-span-1 md:col-span-2 text-center">
           Add a New Recipe
         </h1>
 
-        {/* Title */}
-        <label className="block mb-3">
+        {/* Title (spans full width on md) */}
+        <label className="block col-span-1 md:col-span-2">
           <span className="font-semibold">Recipe Title</span>
           <input
             type="text"
@@ -75,12 +77,12 @@ function AddRecipeForm() {
           )}
         </label>
 
-        {/* Ingredients */}
-        <label className="block mb-3">
+        {/* Ingredients (left column on md) */}
+        <label className="block col-span-1">
           <span className="font-semibold">Ingredients</span>
           <textarea
-            rows="5"
-            className="w-full mt-1 p-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+            rows="6"
+            className="w-full mt-1 p-2 border rounded-lg focus:ring-2 focus:ring-blue-500 h-36 md:h-48 resize-vertical"
             value={ingredients}
             onChange={(e) => setIngredients(e.target.value)}
             placeholder="Write each ingredient on a new line"
@@ -88,14 +90,17 @@ function AddRecipeForm() {
           {errors.ingredients && (
             <p className="text-red-600 text-sm mt-1">{errors.ingredients}</p>
           )}
+          <p className="text-xs text-gray-500 mt-1">
+            Tip: put each ingredient on its own line. (At least 2 ingredients required)
+          </p>
         </label>
 
-        {/* Steps */}
-        <label className="block mb-5">
+        {/* Steps (right column on md) */}
+        <label className="block col-span-1">
           <span className="font-semibold">Preparation Steps</span>
           <textarea
-            rows="5"
-            className="w-full mt-1 p-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+            rows="6"
+            className="w-full mt-1 p-2 border rounded-lg focus:ring-2 focus:ring-blue-500 h-36 md:h-48 resize-vertical"
             value={steps}
             onChange={(e) => setSteps(e.target.value)}
             placeholder="Write each step on a new line"
@@ -103,15 +108,20 @@ function AddRecipeForm() {
           {errors.steps && (
             <p className="text-red-600 text-sm mt-1">{errors.steps}</p>
           )}
+          <p className="text-xs text-gray-500 mt-1">
+            Tip: number each step on a new line for clarity.
+          </p>
         </label>
 
-        {/* Submit */}
-        <button
-          type="submit"
-          className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-lg transition"
-        >
-          Submit Recipe
-        </button>
+        {/* Submit button (spans full width on md) */}
+        <div className="col-span-1 md:col-span-2">
+          <button
+            type="submit"
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-lg transition"
+          >
+            Submit Recipe
+          </button>
+        </div>
       </form>
     </div>
   );
