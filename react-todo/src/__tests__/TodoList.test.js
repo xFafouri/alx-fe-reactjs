@@ -1,6 +1,7 @@
-import React from "react"; // <- ADD THIS LINE
+import React from "react";                 // ⚡ Required for JSX
 import { render, screen, fireEvent } from "@testing-library/react";
 import TodoList from "../components/TodoList";
+
 
 describe("TodoList Component", () => {
   test("renders initial todos", () => {
