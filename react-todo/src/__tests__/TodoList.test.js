@@ -1,3 +1,4 @@
+import React from "react"; // <- ADD THIS LINE
 import { render, screen, fireEvent } from "@testing-library/react";
 import TodoList from "../components/TodoList";
 
@@ -28,7 +29,7 @@ describe("TodoList Component", () => {
   test("deletes a todo", () => {
     render(<TodoList />);
     const todo = screen.getByText("Write Tests");
-    const deleteButton = todo.nextSibling; // the Delete button
+    const deleteButton = todo.nextSibling;
     fireEvent.click(deleteButton);
     expect(screen.queryByText("Write Tests")).not.toBeInTheDocument();
   });
