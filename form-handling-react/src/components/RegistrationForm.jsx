@@ -4,24 +4,37 @@ function RegistrationForm() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [errors, setErrors] = useState({});
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Basic validation logic
-    if (!username || !email || !password) {
-      setError("All fields are required");
-      return;
+    const newErrors = {};
+
+    // Basic validation logic (EXPLICIT)
+    if (!username) {
+      newErrors.username = "Username is required";
     }
 
-    setError("");
+    if (!email) {
+      newErrors.email = "Email is required";
+    }
+
+    if (!password) {
+      newErrors.password = "Password is required";
+    }
+
+    setErrors(newErrors);
+
+    if (Object.keys(newErrors).length > 0) {
+      return;
+    }
 
     // Mock API call
     console.log({
       username,
       email,
-      password
+      password,
     });
 
     alert("User registered successfully!");
@@ -29,6 +42,7 @@ function RegistrationForm() {
     setUsername("");
     setEmail("");
     setPassword("");
+    setErrors({});
   };
 
   return (
@@ -41,6 +55,7 @@ function RegistrationForm() {
         value={username}
         onChange={(e) => setUsername(e.target.value)}
       />
+      {errors.username && <p>{errors.username}</p>}
 
       <input
         type="email"
@@ -48,6 +63,7 @@ function RegistrationForm() {
         value={email}
         onChange={(e) => setEmail(e.target.value)}
       />
+      {errors.email && <p>{errors.email}</p>}
 
       <input
         type="password"
@@ -55,8 +71,7 @@ function RegistrationForm() {
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
-
-      {error && <p style={{ color: "red" }}>{error}</p>}
+      {errors.password && <p>{errors.password}</p>}
 
       <button type="submit">Register</button>
     </form>
