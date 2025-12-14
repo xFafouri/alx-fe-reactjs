@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "test": "jest --env=jsdom --setupFilesAfterEnv=./src/setupTests.js"
+    "test": "jest"
   },
   "dependencies": {
     "react": "^19.2.0",
