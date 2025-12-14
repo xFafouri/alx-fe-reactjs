@@ -1,4 +1,8 @@
-import React from "react";                 // ⚡ Required for JSX
+/**
+ * @jest-environment jsdom
+ */
+
+import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import TodoList from "../components/TodoList";
 
@@ -13,10 +17,10 @@ describe("TodoList Component", () => {
 
   test("adds a new todo", () => {
     render(<TodoList />);
-    const input = screen.getByPlaceholderText("Add todo");
-    const addButton = screen.getByText("Add");
-    fireEvent.change(input, { target: { value: "New Todo" } });
-    fireEvent.click(addButton);
+    fireEvent.change(screen.getByPlaceholderText("Add todo"), {
+      target: { value: "New Todo" }
+    });
+    fireEvent.click(screen.getByText("Add"));
     expect(screen.getByText("New Todo")).toBeInTheDocument();
   });
 
@@ -29,9 +33,7 @@ describe("TodoList Component", () => {
 
   test("deletes a todo", () => {
     render(<TodoList />);
-    const todo = screen.getByText("Write Tests");
-    const deleteButton = todo.nextSibling;
-    fireEvent.click(deleteButton);
+    fireEvent.click(screen.getAllByText("Delete")[1]);
     expect(screen.queryByText("Write Tests")).not.toBeInTheDocument();
   });
 });
